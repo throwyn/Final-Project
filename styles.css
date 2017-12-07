@@ -1,0 +1,12 @@
+﻿body {
+    padding-top: 50px;
+}
+section {
+    padding: 20px;
+    text-align: left;
+}
+ul {
+    list-style: none;
+    margin-left: 20px;
+    padding-left: 1em;
+}

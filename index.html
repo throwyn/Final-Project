@@ -7,6 +7,8 @@
     <script src="Scripts/bootstrap.min.js"></script>
     <script type='text/javascript' src='Scripts/knockout-3.4.2.js'></script>
     <script src="js.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
     <title></title>
 </head>
 <body>   
@@ -19,21 +21,26 @@
                 </a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html#countries">Countries</a></li>
-                <li><a href="index.html#leagues">Leagues</a></li>
-                <li><a href="index.html#teams">Teams</a></li>
+                <li><a href="#countries">Countries</a></li>
+                <li><a href="#leagues">Leagues</a></li>
+                <li><a href="#teams">Teams</a></li>
             </ul>
         </div>
     </nav>
+    <div class="separator"></div>
+
 
     <!-- content of page -->
-    <section>
+    <!-- #countries -->
+    <section id="countries" class="pages" hidden="hidden" >
         <div class="page-header">
             <h2 data-bind="text:className"></h2>
         </div>
-        <!-- ko foreach: countries -->
-        <div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#countries/'+id, title: name}"></a></div>
-        <!-- /ko -->
+        <ul>
+            <!-- ko foreach: countries -->
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#countries/'+id, title: name}"></a></div></li>
+            <!-- /ko -->
+        </ul>
         <div class="clearfix"></div>
         <!-- ko if:error -->
         <div class="bs-callout bs-callout-danger" data-bind="html:error"></div>
@@ -41,5 +48,35 @@
         <div class="bs-callout bs-callout-info" data-bind="html:description"></div>
     </section>
 
+
+
+    <!-- #leagues -->
+    <section id="leagues" class="pages" hidden="hidden">
+        <div class="page-header">
+            <h2 data-bind="text:className"></h2>
+        </div>
+        <ul>
+            <!-- ko foreach: leagues -->
+            <li>
+                <div>
+                    <i class="fa fa-map-marker"></i> 
+                    <a data-bind="html:name, attr:{ href: '#leagues/'+id, title: name}"></a>
+                </div>
+            </li>
+            <!-- /ko -->
+        </ul>
+        <div class="clearfix"></div>
+        <!-- ko if:error -->
+        <div class="bs-callout bs-callout-danger" data-bind="html:error"></div>
+        <!-- /ko -->
+        <div class="bs-callout bs-callout-info" data-bind="html:description"></div>
+    </section>
+
+
+
+    <!-- #teams -->
+    <section id="teams" class="pages" hidden="hidden">
+        content 3
+    </section>
 </body>
 </html>
