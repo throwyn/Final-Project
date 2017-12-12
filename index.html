@@ -28,14 +28,14 @@
     </nav>
     <div class="separator"></div>
 
-
-    <!-- content of page -->
+    <!-- content of page -->    
+    <!-- #countries & #leagues -->
     <section id="list" class="pages" >
         <div class="page-header">
             <h2 data-bind="text:chosenMenuId"></h2>
         </div>
         <ul  data-bind="foreach: chosenMenuData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#countries/'+id, title: name}"></a></div></li>
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuId().toLowerCase()+'/'+id, title: name}"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>

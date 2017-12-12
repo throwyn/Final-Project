@@ -34,6 +34,10 @@ $(document).ready(function () {
                 {
                     "className": "Leagues",
                     "baseUri": "http://192.168.160.28/football/api/leagues"
+                },
+                {
+                    "className": "Teams",
+                    "baseUri": "http://192.168.160.28/football/api/teams"
                 }
 
             ];
@@ -56,8 +60,8 @@ $(document).ready(function () {
         self.get = function (list, page) {
             console.log('CALL: get' + list[page].className+'...');
             ajaxHelper(list[page].baseUri, 'GET').done(function (data) {
-                self.chosenMenuData(data);
                 console.log(data);
+                self.chosenMenuData(data);
             });
         };
         //---- initial call
