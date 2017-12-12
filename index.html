@@ -6,6 +6,7 @@
     <script src="Scripts/jquery-3.2.1.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <script type='text/javascript' src='Scripts/knockout-3.4.2.js'></script>
+    <script type="text/javascript" src="/scripts/sammy-0.7.5.js"></script>
     <script src="js.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
@@ -20,10 +21,8 @@
                     <img src="http://www.trelleborg.com/~/media/logo/icons/mining_construction.png" class="img-rounded" alt="Cinque Terre" width="20" height="20">
                 </a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#countries">Countries</a></li>
-                <li><a href="#leagues">Leagues</a></li>
-                <li><a href="#teams">Teams</a></li>
+            <ul class="nav navbar-nav " data-bind="foreach: menu">
+                <li><a href="" data-bind="text: $data, click: menuGoTo">-</a></li>
             </ul>
         </div>
     </nav>
@@ -31,47 +30,15 @@
 
 
     <!-- content of page -->
-    <!-- #countries -->
-    <section id="countries" class="pages" hidden="hidden" >
+    <section id="list" class="pages" >
         <div class="page-header">
-            <h2 data-bind="text:className"></h2>
+            <h2 data-bind="text:chosenMenuId"></h2>
         </div>
-        <ul>
-            <!-- ko foreach: countries -->
+        <ul  data-bind="foreach: chosenMenuData">
             <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#countries/'+id, title: name}"></a></div></li>
-            <!-- /ko -->
         </ul>
         <div class="clearfix"></div>
-        <!-- ko if:error -->
-        <div class="bs-callout bs-callout-danger" data-bind="html:error"></div>
-        <!-- /ko -->
-        <div class="bs-callout bs-callout-info" data-bind="html:description"></div>
     </section>
-
-
-
-    <!-- #leagues -->
-    <section id="leagues" class="pages" hidden="hidden">
-        <div class="page-header">
-            <h2 data-bind="text:className"></h2>
-        </div>
-        <ul>
-            <!-- ko foreach: leagues -->
-            <li>
-                <div>
-                    <i class="fa fa-map-marker"></i> 
-                    <a data-bind="html:name, attr:{ href: '#leagues/'+id, title: name}"></a>
-                </div>
-            </li>
-            <!-- /ko -->
-        </ul>
-        <div class="clearfix"></div>
-        <!-- ko if:error -->
-        <div class="bs-callout bs-callout-danger" data-bind="html:error"></div>
-        <!-- /ko -->
-        <div class="bs-callout bs-callout-info" data-bind="html:description"></div>
-    </section>
-
 
 
     <!-- #teams -->
