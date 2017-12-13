@@ -29,21 +29,56 @@
     <div class="separator"></div>
 
     <!-- content of page -->    
-    <!-- #countries & #leagues -->
+    <!-- #countries & #leagues -->    
+    <!-- ko if: CountriesLeaguesData -->
     <section id="list" class="pages" >
         <div class="page-header">
             <h2 data-bind="text:chosenMenuId"></h2>
         </div>
-        <ul  data-bind="foreach: chosenMenuData">
+        <ul  data-bind="foreach: CountriesLeaguesData">
             <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuId().toLowerCase()+'/'+id, title: name}"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
+    <!-- /ko -->
 
+    <!-- #teams -->    
+    <!-- ko if: TeamsData -->
+    <section id="teams" class="pages">
+        <div class="page-header">
+            <h2>Search for Teams</h2>
+        </div>
+        <div class="page-header">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" data-bind="value: SearchForTeamString">
+                <div class="input-group-btn">
+                    <button data-bind="click: function(){ GoToSpecyfic('Search_For_Team');}" class="btn btn-default">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Acronym</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: TeamsData">
+                    <tr>
+                        <td data-bind="html: team_long_name"></td>
+                        <td data-bind="html: team_short_name"></td>
+                        <td data-bind="html: Country.name"></td>
+                    </tr>
 
-    <!-- #teams -->
-    <section id="teams" class="pages" hidden="hidden">
-        content 3
-    </section>
+                </tbody>
+            </table>
+            </div>
+</section>    
+    <!-- /ko -->
 </body>
 </html>
