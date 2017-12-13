@@ -48,13 +48,18 @@ $(document).ready(function () {
 
 
         // Behaviours  
+        //self.menuGoTo = function (page) {
+        //    console.log(page.toLowerCase());
+        //    window.location.hash = page.toLowerCase();
+        //    self.chosenMenuId(page);
+        //    self.chosenMenuData(null); // Stop showing actual content
+        //    //console.log(self.list[0]);
+        //    //console.log(page);
+        //    //console.log(searchInList(self.list, page));
+        //    self.get(self.list, searchInList(self.list,page));
+        //};
         self.menuGoTo = function (page) {
-            self.chosenMenuId(page);
-            self.chosenMenuData(null); // Stop showing actual content
-            //console.log(self.list[0]);
-            //console.log(page);
-            //console.log(searchInList(self.list, page));
-            self.get(self.list, searchInList(self.list,page));
+            location.hash = page;
         };
 
         self.get = function (list, page) {
@@ -66,51 +71,40 @@ $(document).ready(function () {
         };
         //---- initial call
         //self.menuGoTo("Countries");
+
+        Sammy(function () {
+            this.get('#:menu', function () {
+                self.chosenMenuId(this.params.menu);
+                self.chosenMenuData(null); // Stop showing actual content
+                //self.chosenMailData(null);
+                self.get(self.list, searchInList(self.list, this.params.menu));
+            });
+
+            //this.get('#:folder/:mailId', function () {
+            //    self.chosenFolderId(this.params.folder);
+            //    self.chosenFolderData(null);
+            //    $.get("/mail", { mailId: this.params.mailId }, self.chosenMailData);
+            //});
+
+            this.get('', function () { this.app.runRoute('get', '#Menu'); });
+        }).run();    
     }
     ko.applyBindings(vm);
+
+    //$(window).on("hashchange", function () {
+    //    var hash = window.location.hash;
+    //    if (hash !== "") {
+    //        console.log(window.location.hash);
+    //        $(hash).show();
+    //    }
+    //    if (hash === "#leagues") {
+
+    //    }
+    //    if (hash === "#countries") {
+
+    //    }
+    //});
 });
 
-//$(window).on("hashchange", function () {
-//    console.log(vm);
-//        var hash = window.location.hash;
-//        if (hash !== "") {
-//            console.log(window.location.hash);
-//            $(".pages").hide();
-//            $(hash).show();
-//        }
-//        if (hash === "#leagues") {
-//            vm = function () {
-//                console.log('ViewModel updating...');
-//                //---Variáveis locais
-//                vm.baseUri = 'http://192.168.160.28/football/api/leagues';
-//                vm.className = 'Leagues';
-//                vm.description = 'This page aims to demonstrate the use of the football web API for countries and the interconnection with other entities.<br > Called method(s): <ul><li>' + baseUri + '</li></ul>';
-//                vm.error = ko.observable();
-//                vm.leagues = ko.observableArray([]);
-//                //---- initial call
-//                vm.get();
-//            };
-//        }
-//        if (window.location.hash === "#countries") {
-//            vm = function () {
-//                console.log('ViewModel initiated...');
-//                //---Variáveis locais
-//                var self = this;
-//                var baseUri = 'http://192.168.160.28/football/api/countries';
-//                self.className = 'Countries';
-//                self.description = 'This page aims to demonstrate the use of the football web API for countries and the interconnection with other entities.<br > Called method(s): <ul><li>' + baseUri + '</li></ul>';
-//                self.error = ko.observable();
-//                self.countries = ko.observableArray([]);
-//                //--- Externel functions (accessible outside)
-//                self.getCountries = function () {
-//                    console.log('CALL: getCountries...');
-//                    ajaxHelper(baseUri, 'GET').done(function (data) {
-//                        self.countries(data);
-//                    });
-//                };
-//                //---- initial call
-//                self.getCountries();
-//            };
-//        }
-//    });
+
 
