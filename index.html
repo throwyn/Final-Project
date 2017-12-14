@@ -12,13 +12,25 @@
     <link rel="stylesheet" href="styles.css">
     <title></title>
 </head>
-<body>   
+<body>
+    <style>
+        body {
+            background-image: url("https://png.pngtree.com/thumb_back/fw800/back_pic/04/62/33/77586f80d1887e6.jpg");
+            background-repeat: no-repeat;
+            background-attachment:fixed;
+            background-position: center;
+            background-size: cover;
+
+        }
+
+    </style>
     <!-- navigation bar -->
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="index.html">
-                    <img src="http://www.trelleborg.com/~/media/logo/icons/mining_construction.png" class="img-rounded" alt="Cinque Terre" width="20" height="20">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/e/ec/Soccer_ball.svg"  class="img-rounded"  width="20" height="20">
                 </a>
             </div>
             <ul class="nav navbar-nav " data-bind="foreach: menu">
@@ -33,7 +45,7 @@
     <!-- ko if: CountriesLeaguesData -->
     <section id="list" class="pages" >
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId"></h2>
+            <h2 data-bind="text:chosenMenuId" style="color:white"></h2>
         </div>
         <ul  data-bind="foreach: CountriesLeaguesData">
             <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuId().toLowerCase()+'/'+id, title: name}"></a></div></li>
@@ -46,7 +58,7 @@
     <!-- ko if: TeamsData -->
     <section id="teams" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId"></h2>
+            <h2 data-bind="text:chosenMenuId" style="color:whitesmoke"></h2>
         </div>
         <div class="page-header">
             <div class="input-group">
@@ -59,8 +71,8 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="container">
-            <table class="table table-hover">
+        <div class="container" style="color:navajowhite">
+            <table class="table table-hover table-bordered" style="background-color:lightblue" >
                 <thead>
                     <tr>
                         <th>Team</th>
@@ -69,8 +81,8 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: TeamsData">
-                    <tr>
-                        <td><a href="" data-bind="html: team_long_name, click: GoToSpecificTeam"></a></td>
+                    <tr style="color:lightslategrey">
+                        <td><a href="" data-bind="html: team_long_name, click: GoToSpecificTeam" style="color:black"></a></td>
                         <td data-bind="html: team_short_name"></td>
                         <td data-bind="html: Country.name"></td>
                     </tr>
@@ -237,6 +249,16 @@
         </div>
             <div class="clearfix"></div>
 </section>
+    <!-- /ko -->
+
+    <!-- ko if: SpecificTeamData -->
+    <section id="Welcome" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:chosenMenuId"></h2>
+        </div>
+        <div><p>sfsssdsdsds</p></div>
+        <div class="clearfix"></div>
+    </section>
     <!-- /ko -->
 </body>
 </html>
