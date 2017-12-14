@@ -8,7 +8,7 @@
     <script type='text/javascript' src='Scripts/knockout-3.4.2.js'></script>
     <script type="text/javascript" src="/scripts/sammy-0.7.5.js"></script>
     <script src="js.js"></script>
-    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
     <title></title>
 </head>
@@ -82,7 +82,7 @@
     <!-- /ko -->
 
     <!--#team/id-->
-    <!-- ko if: SpecificTeamData -->
+    <!-- ko if: SpecificTeamData && SpecificTeamSeasonsData && SpecificTeamSelectedSeasonData -->
     <section id="team" class="pages">
         <div class="page-header">
             <h2 data-bind="text:chosenMenuId"></h2>
@@ -93,24 +93,145 @@
         </ul>-->
         <div class="tabbable">
             <ul class="nav nav-tabs" data-bind="foreach: SeasonsData">
-                <li data-bind="css: { active: isSelected }">
-                    <a href="#" data-bind="click: $parent.selectedSection">
+                <li>
+                    <a data-toggle="tab" data-bind="click: SpecificTeamSeasonsSet($data)">
                         <span data-bind="text: $data" />
                     </a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
-                    <h3>HOME</h3>
+            <div class="tab-content" >
+                <div id="season_kits" class="tab-pane fade in active">
+                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Seasons Kits'"></h3>
                     <p>Some content.</p>
                 </div>
-                <div id="menu1" class="tab-pane fade">
-                    <h3>Menu 1</h3>
-                    <p>Some content in menu 1.</p>
-                </div>
-                <div id="menu2" class="tab-pane fade">
-                    <h3>Menu 2</h3>
-                    <p>Some content in menu 2.</p>
+
+                <!-- ko if: SpecificTeamSelectedSeason -->
+                <div id="team_attributes" class="tab-pane fade in active">
+                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Team Attributes'"></h3>
+                    <p> Build Up Play<br/>
+                    Speed
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
+                                    data-bind="text:AttributesOfTeam().buildupplayspeedclass+' - '+AttributesOfTeam().buildupplayspeed+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().buildupplayspeed + '%' }, 
+                                        attr: { 'aria-valuenow': AttributesOfTeam().buildupplayspeed }">
+                            -
+                        </div><br />
+                    Dribbling
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                                    data-bind="text:AttributesOfTeam().buildupplaydribblingclass+' - '+AttributesOfTeam().buildupplaydribbling+'%',
+                                                style: { color: '#000;', width: AttributesOfTeam().buildupplaydribbling + '%' },
+                                                attr: { 'aria-valuenow': AttributesOfTeam().buildupplaydribbling }">
+                                -
+                        </div><br />
+                    Passing
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                                    data-bind="text:AttributesOfTeam().buildupplaypassingclass+' - '+AttributesOfTeam().buildupplaypassing+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().buildupplaypassing + '%' },
+                                        attr: { 'aria-valuenow': AttributesOfTeam().buildupplaypassing }">
+                                -
+                        </div><br />
+                    Positioning  <div data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
+                        
+                    </p>
+
+                    <p>
+                        Chance Creation<br />
+                        Passing
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().chancecreationpassingclass+' - '+AttributesOfTeam().chancecreationpassing+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().chancecreationpassing + '%' },
+                                        attr: { 'aria-valuenow': AttributesOfTeam().chancecreationpassing }">
+                            -
+                        </div><br />
+                        Crossing
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().chancecreationcrossingclass+' - '+AttributesOfTeam().chancecreationcrossing+'%',
+                                                style: { color: '#000;', width: AttributesOfTeam().chancecreationcrossing + '%' },
+                                                attr: { 'aria-valuenow': AttributesOfTeam().chancecreationcrossing }">
+                            -
+                        </div><br />
+                        Shooting
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().chancecreationshootingclass+' - '+AttributesOfTeam().chancecreationshooting+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().chancecreationshooting + '%' },
+                                        attr: { 'aria-valuenow': AttributesOfTeam().chancecreationshooting }">
+                            -
+                        </div><br />
+                        Positioning  <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass"></div>
+
+                    </p>
+
+                    <p>
+                        Defence<br />
+                        Pressure
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().defencepressureclass+' - '+AttributesOfTeam().defencepressure+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().defencepressure + '%' },
+                                        attr: { 'aria-valuenow': AttributesOfTeam().defencepressure }">
+                            -
+                        </div><br />
+                        Aggression
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().defenceaggressionclass+' - '+AttributesOfTeam().defenceaggression+'%',
+                                                style: { color: '#000;', width: AttributesOfTeam().defenceaggression + '%' },
+                                                attr: { 'aria-valuenow': AttributesOfTeam().defenceaggression }">
+                            -
+                        </div><br />
+                        Teamwidth
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                             data-bind="text:AttributesOfTeam().defenceteamwidthclass+' - '+AttributesOfTeam().defenceteamwidth+'%',
+                                        style: { color: '#000;', width: AttributesOfTeam().defenceteamwidth + '%' },
+                                        attr: { 'aria-valuenow': AttributesOfTeam().defenceteamwidth }">
+                            -
+                        </div><br />
+                        Defender Line  <div data-bind="text:AttributesOfTeam().defencedefenderlineclass"></div>
+
+                    </p>
+                </div>                
+                <!-- /ko -->
+
+
+                <div id="season_matches" class="tab-pane fade in active">
+                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Season Matches'"></h3>
+                    <p>
+                        <div class="clearfix"></div>
+                        <div class="container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Stage</th>
+                                        <th>(name of team)</th>
+                                        <th>(logo of team)</th>
+                                        <th>Home</th>
+                                        <th></th>
+                                        <th>Away</th>
+                                        <th>(logo of team)</th>
+                                        <th>(name of team)</th>
+                                        <th>Match Date</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: MatchesOfTeam()">
+                                    <tr>
+                                        <td data-bind="html: stage"></td>
+                                        <td ><a href="" data-bind="html: home_team.team_long_name, click: function(){GoToTeam(home_team)}"></a></td>
+                                        <td data-bind="attr:{} "><img data-bind="attr:{src: CreateURLOfLogoImg(home_team.team_fifa_api_id),height:42, width:42 }" /> </td>
+                                        <td data-bind="html: home_team_goal"></td>
+                                        <td>   </td>
+                                        <td data-bind="html: away_team_goal"></td>
+                                        <td data-bind="attr:{} "><img data-bind="attr:{src: CreateURLOfLogoImg(away_team.team_fifa_api_id),height:42, width:42 }" /> </td>
+                                        <td><a href="" data-bind="html: away_team.team_long_name, click: function(){GoToTeam(away_team)}"></a></td>
+                                        <td data-bind="html: NormalizeDateOfMatch(date)"></td>
+                                        <td><button data-bind="click: function(){}" class="btn btn-default">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </p>
                 </div>
             </div>
         </div>
