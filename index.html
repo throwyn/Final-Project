@@ -42,23 +42,45 @@
 
     <!-- content of page -->    
     <!-- #countries & #leagues -->    
-    <!-- ko if: CountriesLeaguesData -->
+    <!-- ko if: CountriesData() -->
     <section id="list" class="pages" >
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId" style="color:white"></h2>
+            <h2 data-bind="text:chosenMenuTitle" style="color:white"></h2>
         </div>
-        <ul  data-bind="foreach: CountriesLeaguesData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuId().toLowerCase()+'/'+id, title: name}"></a></div></li>
+        <ul  data-bind="foreach: CountriesData">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeaguesOfCountry "></a></div></li>
+        </ul>
+        <div class="clearfix"></div>
+    </section>
+    <!-- /ko -->        
+    <!-- ko if: LeaguesData -->
+    <section id="list" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:chosenMenuTitle" style="color:white"></h2>
+        </div>
+        <ul data-bind="foreach: LeaguesData">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeague "></a></div></li>
+        </ul>
+        <div class="clearfix"></div>
+    </section>
+    <!-- /ko -->  
+    <!-- ko if: LeaguesOfCountryData() -->
+    <section id="list" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:NameOfSelectedCountry()" style="color:white"></h2>
+        </div>
+        <ul data-bind="foreach: LeaguesOfCountryData">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuTitle().toLowerCase()+'/'+id, title: name}"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
     <!-- /ko -->
 
     <!-- #teams -->    
-    <!-- ko if: TeamsData -->
+    <!-- ko if: TeamsData() -->
     <section id="teams" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId" style="color:whitesmoke"></h2>
+            <h2 data-bind="text:chosenMenuTitle" style="color:whitesmoke"></h2>
         </div>
         <div class="page-header">
             <div class="input-group">
@@ -94,14 +116,14 @@
     <!-- /ko -->
 
     <!--#team/id-->
-    <!-- ko if: SpecificTeamData && SpecificTeamSeasonsData && SpecificTeamSelectedSeasonData -->
+    <!-- ko if: SpecificTeamData() && SpecificTeamSeasonsData() && SpecificTeamSelectedSeasonData() -->
     <section id="team" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId"></h2>
+            <h2 data-bind="text:chosenMenuTitle"></h2>
         </div>
         <img data-bind="attr:{src: SpecificTeamImageUrl}" />
         <!--<ul data-bind="foreach: CountriesLeaguesData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuId().toLowerCase()+'/'+id, title: name}"></a></div></li>
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuTitle().toLowerCase()+'/'+id, title: name}"></a></div></li>
         </ul>-->
         <div class="tabbable">
             <ul class="nav nav-tabs" data-bind="foreach: SeasonsData">
@@ -117,7 +139,7 @@
                     <p>Some content.</p>
                 </div>
 
-                <!-- ko if: SpecificTeamSelectedSeason -->
+                <!-- ko if: AttributesOfTeam() -->
                 <div id="team_attributes" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Team Attributes'"></h3>
                     <p> Build Up Play<br/>
@@ -202,7 +224,7 @@
                 </div>                
                 <!-- /ko -->
 
-
+                <!-- ko if:MatchesOfTeam-->
                 <div id="season_matches" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Season Matches'"></h3>
                     <p>
@@ -245,20 +267,32 @@
                         </div>
                     </p>
                 </div>
+                <!-- /ko -->
             </div>
         </div>
             <div class="clearfix"></div>
 </section>
     <!-- /ko -->
+    <!-- ko if: LeagueData -->
+    <section id="list" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:chosenMenuTitle()" style="color:white"></h2>
+        </div>
+        <ul data-bind="foreach: LeagueData().teams">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:team_long_name, attr:{ href: '#Info_Team/'+id, title: team_long_name}"></a></div></li>
+        </ul>
+        <div class="clearfix"></div>
+    </section>
+    <!-- /ko -->
 
     <!-- ko if: SpecificTeamData -->
-    <section id="Welcome" class="pages">
+    <!--<section id="Welcome" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuId"></h2>
+            <h2 data-bind="text:chosenMenuTitle"></h2>
         </div>
         <div><p>sfsssdsdsds</p></div>
         <div class="clearfix"></div>
-    </section>
+    </section>-->
     <!-- /ko -->
 </body>
 </html>

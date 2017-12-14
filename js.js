@@ -46,7 +46,7 @@ $(document).ready(function () {
                 },
                 {
                     "className": "Country_Leagues",//Get country Leagues
-                    "baseUri": "http://192.168.160.28/football/api/countries/countryLeagues/{id}"
+                    "baseUri": "http://192.168.160.28/football/api/countries/countryLeagues/"
                 },
                 {
                     "className": "Info_Country",//Get info about a country
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 },
                 {
                     "className": "Info_League",//Get info about a league
-                    "baseUri": "http://192.168.160.28/football/api/leagues/{id}"
+                    "baseUri": "http://192.168.160.28/football/api/leagues/"
                 },
                 {
                     "className": "List_Of_Seasons",// Get a List of seasons
@@ -117,14 +117,15 @@ $(document).ready(function () {
                     "baseUri": "http://192.168.160.28/football/api/matches/{id}"
                 },
                 {
-                    "className": "Welcome",//Get to "welcome"
+                    "className": "Welcome"//Get to "welcome"
                 }
 
             ];
 
         //countries and leagues
-        self.chosenMenuId = ko.observable();
-        self.CountriesLeaguesData = ko.observable();
+        self.chosenMenuTitle = ko.observable();
+        self.CountriesData = ko.observable();
+        self.LeaguesData = ko.observable();
 
         //Specyfic team
         self.SpecificTeamID = ko.observable();
@@ -137,14 +138,27 @@ $(document).ready(function () {
         };
 
         self.SpecificTeamSelectedSeasonData = ko.observable();
-        self.AttributesOfTeam = function () {if(self.SpecificTeamSelectedSeasonData().Attributes !== null) { return self.SpecificTeamSelectedSeasonData().Attributes; };};
+        self.AttributesOfTeam = function () {if(self.SpecificTeamSelectedSeasonData().Attributes !== null) { return self.SpecificTeamSelectedSeasonData().Attributes; }};
         self.MatchesOfTeam = function () { return self.SpecificTeamSelectedSeasonData().Matches; };
         self.SpecificTeamSelectedSeason = ko.observable();
         self.SpecificTeamSeasonsSet = function (season) {
             self.SpecificTeamSelectedSeason(season);
             self.SpecificTeamSelectedSeasonData(searchForDataOfSeason(self.SpecificTeamSeasonsData(), season));
         };
-        //Seasons
+        //Leagues of Country
+        self.LeaguesOfCountryID = ko.observable();
+        self.LeaguesOfCountryData = ko.observable();
+        self.NameOfSelectedCountry = ko.observable();
+        self.SetNameOfSelectedCountry = function () { self.NameOfSelectedCountry(self.LeaguesOfCountryData().countryName); };
+
+        //League
+        self.LeagueID = ko.observable();
+        self.LeagueData = ko.observable();
+        self.NameOfLeague = ko.observable();
+        self.SetNameOfLeague = function () { self.NameOfLeague(self.LeaguesyData().name); };
+
+
+        // Seasons
         self.SeasonsData = ko.observable();
 
         //Teams
@@ -160,7 +174,7 @@ $(document).ready(function () {
         //self.menuGoTo = function (page) {
         //    console.log(page.toLowerCase());
         //    window.location.hash = page.toLowerCase();
-        //    self.chosenMenuId(page);
+        //    self.chosenMenuTitle(page);
         //    self.CountriesLeaguesData(null); // Stop showing actual content
         //    //console.log(self.list[0]);
         //    //console.log(page);
@@ -183,12 +197,15 @@ $(document).ready(function () {
             });
         };
         self.clearData = function () {
-            self.CountriesLeaguesData(null); // Stop showing actual content
+            self.CountriesData(null);
+            self.LeaguesData(null); // Stop showing actual content
             self.TeamsData(null);
             self.SpecificTeamData(null);
             self.SpecificTeamSelectedSeasonData(null); 
             self.SpecificTeamSeasonsData(null);
             self.SpecificTeamSelectedSeasonData(null);
+            self.LeaguesOfCountryData(null);
+            self.LeagueData(null);
         };
         self.menuGoTo = function (page) {
             console.log("MENU TO GOO" + page);
@@ -213,6 +230,16 @@ $(document).ready(function () {
                 location.hash = page + '/' + self.SearchForTeamString();
             }
         };
+
+        self.GoToLeaguesOfCountry = function (page) {
+            //self.chosenMenuTitle(page.name);
+            console.log("Go To Leagues Of Country:  " + page.name);
+            location.hash = 'Country_Leagues' + '/' + page.id;
+        };
+        self.GoToLeague = function (page) {
+            console.log("Go To League:  " + page.name);
+            location.hash = 'Info_League' + '/' + page.id;
+        };
         self.GoToSpecificTeam = function (page) {
             console.log("Go To Team " + page.id);
             self.SpecificTeamID(page.id);
@@ -222,6 +249,7 @@ $(document).ready(function () {
         };
 
         self.get = function (list) {
+            self.clearData; 
             console.log('CALL: get' + list.className + '...');
             console.log(list);
             var URL = '';
@@ -231,11 +259,17 @@ $(document).ready(function () {
                     self.SearchForTeamString(null);
                     console.log(URL);
                     break;
-                
-                case 'Info_Team' :
+
+                case 'Info_Team':
                     URL = list.baseUri + self.SpecificTeamID();
                     break;
-
+                case 'Country_Leagues':
+                    URL = list.baseUri + self.LeaguesOfCountryID();
+                    break;
+                case 'Info_League':
+                    URL = list.baseUri + self.LeagueID();
+                    break;
+                    
                 case 'Welcome':
                     URL = list.baseUri + self.Welcome();
                     break;
@@ -247,25 +281,38 @@ $(document).ready(function () {
             console.log(list, URL);
             ajaxHelper(URL, 'GET').done(function (data) {
                 self.clearData();
-                if (list.className === 'Countries' || list.className === 'Leagues') {
-                    self.chosenMenuId(list.className);
-                    self.CountriesLeaguesData(data);
+                if (list.className === 'Countries') {
+                    self.chosenMenuTitle('Countries');
+                    self.CountriesData(data);
+                }
+                if ( list.className === 'Leagues') {
+                    self.chosenMenuTitle('Leagues');
+                    self.LeaguesData(data);
                 }
                 if (list.className === 'Teams' || list.className === 'Search_For_Team') {
-                    self.chosenMenuId('Teams');
+                    self.chosenMenuTitle('Teams');
                     self.TeamsData(data);
                 }
                 if (list.className === 'Info_Team') {
-                    self.chosenMenuId(data.team_long_name + '  [' + data.team_short_name+']');
+                    self.chosenMenuTitle(data.team_long_name + '  [' + data.team_short_name+']');
                     self.SpecificTeamData(data);
                     self.DownloadSeasons();
                     self.DownloadSpecificTeamSeasonsData();
                     console.log(data);
-
-
                 }
+                if (list.className === 'Country_Leagues') {
+                    self.chosenMenuTitle(data[0].countryName);
+                    self.LeaguesData(data);
+                }
+                if (list.className === 'Info_League') {
+                    self.chosenMenuTitle(data.name);
+                    self.LeagueData(data);
+                    console.log(data.name);
+                }
+                
 
-                console.log(self.SpecificTeamImageUrl());
+
+                //console.log(self.SpecificTeamImageUrl());
                 console.log(data);
                 console.log(list.className);
             });
@@ -275,11 +322,11 @@ $(document).ready(function () {
 
         Sammy(function () {
             this.get('#:menu', function () {
-                //self.chosenMenuId(this.params.menu);
+                //self.chosenMenuTitle(this.params.menu);
 
                // if (this.params.menu === 'Countries' || this.params.menu === 'Leagues')
                 //self.chosenMailData(null);
-                //console.log(self.chosenMenuId());
+                //console.log(self.chosenMenuTitle());
                 console.log(searchInList(self.list, this.params.menu));
                 self.get(searchInList(self.list, this.params.menu));
             });
@@ -287,20 +334,26 @@ $(document).ready(function () {
             this.get('#:menu/:id', function () {
                 //console.log(self.SearchForTeamString());
                 console.log(this.params);
+                if (this.params.menu === 'Country_Leagues') {
+                    self.LeaguesOfCountryID(this.params.id);
+                }
                 if (this.params.menu === 'Search_For_Team') {
-                    self.chosenMenuId(this.params.menu);
                     self.SearchForTeamString(this.params.id);
                 }
+                if (this.params.menu === 'Info_League') {
+                    self.LeagueID(this.params.id);
+                    console.log(this.params.id)
+                }
                 if (this.params.menu === 'Info_Team') {
-                    self.chosenMenuId(this.params.menu);
                     self.SpecificTeamID(this.params.id);
                 }
-                //console.log(self.chosenMenuId());
+                //console.log(self.chosenMenuTitle());
                 //console.log(self.list[searchInList(self.list, this.params.menu)]);
                 self.get(searchInList(self.list, this.params.menu));
             });
 
-            this.get('', function () { this.app.runRoute('get', '#Welcome'); });
+            this.get('', function () { this.app.runRoute('get', '#Countries'); });
+          //  this.get('', function () { this.app.runRoute('get', '#Welcome'); });
         }).run();    
     }
     ko.applyBindings(vm);
