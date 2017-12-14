@@ -110,6 +110,9 @@ $(document).ready(function () {
                 {
                     "className": "Matches_Of_Team_In_Season",//Get matches for a Team in a Season
                     "baseUri": "http://192.168.160.28/football/api/matches/{id}"
+                },
+                {
+                    "className": "Welcome",//Get to "welcome"
                 }
 
             ];
@@ -192,6 +195,10 @@ $(document).ready(function () {
                 case 'Info_Team' :
                     URL = list.baseUri + self.SpecificTeamID();
                     break;
+
+                case 'Welcome':
+                    URL = list.baseUri + self.Welcome();
+                    break;
                 
                 default: 
                     URL = list.baseUri;
@@ -259,7 +266,7 @@ $(document).ready(function () {
                 self.get(self.list[searchInList(self.list, this.params.menu)]);
             });
 
-            this.get('', function () { this.app.runRoute('get', '#Countries'); });
+            this.get('', function () { this.app.runRoute('get', '#Welcome'); });
         }).run();    
     }
     ko.applyBindings(vm);
