@@ -15,21 +15,12 @@
 <body>
     <style>
         body {
-            background-image: url(" https://upload.wikimedia.org/wikipedia/commons/8/8e/Stade_Velodrome_2015.jpg");
+            background-image: url("https://png.pngtree.com/thumb_back/fw800/back_pic/04/62/33/77586f80d1887e6.jpg");
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-attachment:fixed;
             background-position: center;
             background-size: cover;
-        }
-        #list {
-            background-image: url(" https://upload.wikimedia.org/wikipedia/commons/8/8e/Stade_Velodrome_2015.jpg");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-        }
-        #table {
-            background-color: lightblue
+
         }
 
     </style>
@@ -103,7 +94,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="container" style="color:navajowhite">
-            <table class="table-condensed table-hover table-bordered"  id="table">
+            <table class="table table-hover table-bordered" style="background-color:lightblue" >
                 <thead>
                     <tr>
                         <th>Team</th>
@@ -149,26 +140,23 @@
                 </div>
 
                 <!-- ko if: AttributesOfTeam() -->
-                <div id="team_attributes" class="tab-pane fade in active" style="background-color:lightgrey">
+                <div id="team_attributes" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Team Attributes'"></h3>
-                    <br />
-                    <p><h2> Build Up Play</h2></p> 
+                    <p> Build Up Play<br/>
                     Speed
-                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
                                     data-bind="text:AttributesOfTeam().buildupplayspeedclass+' - '+AttributesOfTeam().buildupplayspeed+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().buildupplayspeed + '%' }, 
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplayspeed }">
                             -
-                    </div><br />
+                        </div><br />
                     Dribbling
-                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaydribblingclass+' - '+AttributesOfTeam().buildupplaydribbling+'%',
                                                 style: { color: '#000;', width: AttributesOfTeam().buildupplaydribbling + '%' },
                                                 attr: { 'aria-valuenow': AttributesOfTeam().buildupplaydribbling }">
                                 -
-                    </div> 
-
-                    <br />
+                        </div><br />
                     Passing
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaypassingclass+' - '+AttributesOfTeam().buildupplaypassing+'%',
@@ -176,13 +164,14 @@
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplaypassing }">
                                 -
                         </div><br />
-                    <div class="col-lg-3">  Positioning </div>
-                    <div class="col-lg-7" data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
-                    <br />
-            
-                   <h2>Chance Creation</h2>
-                   Passing
-                   <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                    Positioning  <div data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
+                        
+                    </p>
+
+                    <p>
+                        Chance Creation<br />
+                        Passing
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().chancecreationpassingclass+' - '+AttributesOfTeam().chancecreationpassing+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationpassing + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationpassing }">
@@ -201,16 +190,13 @@
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationshooting + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationshooting }">
                             -
-                        </div><br /> 
-                    
-                         <div style="display:inline-block" class="col-lg-3"> Positioning </div>
-                         <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass" class="col-lg-"></div>
-                     
-                    
-               
-                    
-                       <br />
-                        <h2>Defence</h2>
+                        </div><br />
+                        Positioning  <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass"></div>
+
+                    </p>
+
+                    <p>
+                        Defence<br />
                         Pressure
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().defencepressureclass+' - '+AttributesOfTeam().defencepressure+'%',
@@ -232,11 +218,10 @@
                                         attr: { 'aria-valuenow': AttributesOfTeam().defenceteamwidth }">
                             -
                         </div><br />
-                
-                    <div class="col-lg-3">  Defender Line </div>
-                    <div class="col-lg-7" data-bind="text:AttributesOfTeam().defencedefenderlineclass"></div>
-                   
-                 </div>                
+                        Defender Line  <div data-bind="text:AttributesOfTeam().defencedefenderlineclass"></div>
+
+                    </p>
+                </div>                
                 <!-- /ko -->
 
                 <!-- ko if:MatchesOfTeam-->
@@ -245,7 +230,7 @@
                     <p>
                         <div class="clearfix"></div>
                         <div class="container">
-                            <table class="table-striped table-hover" >
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Stage</th>
