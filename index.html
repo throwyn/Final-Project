@@ -93,7 +93,7 @@
         </div>
         <div class="page-header">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" data-bind="value: SearchForTeamString">
+                <input id="SearchForTeamString"type="text" class="form-control" placeholder="Search" onchange="GoToSpecyfic('Search_For_Team');">
                 <div class="input-group-btn">
                     <button data-bind="click: function(){ GoToSpecyfic('Search_For_Team');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
@@ -143,10 +143,7 @@
                 </li>
             </ul>
             <div class="tab-content" >
-                <div id="season_kits" class="tab-pane fade in active">
-                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Seasons Kits'"></h3>
-                    <p>Some content.</p>
-                </div>
+
 
                 <!-- ko if: AttributesOfTeam() -->
                 <div id="team_attributes" class="tab-pane fade in active" style="background-color:lightgrey">
@@ -239,6 +236,31 @@
                  </div>                
                 <!-- /ko -->
 
+                <div id="season_kits" class="tab-pane fade in active">
+                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Seasons Kits'"></h3>
+                    <p>
+                        <div class="toast mb-20">
+                            <div class="column col-sm-3 text-center" id="KitArea1" style="display:none">
+                                <img id="KitImage1" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/0_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Home kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea2" style="display:none">
+                                <img id="KitImage2" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/1_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Away kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea3" style="display:none">
+                                <img id="KitImage3" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/2_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Goalkeeper kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea4" style="display:none">
+                                <img id="KitImage4" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/3_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Third kit
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </p>
+                </div>
+
                 <!-- ko if:MatchesOfTeam-->
                 <div id="season_matches" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Season Matches'"></h3>
@@ -271,7 +293,7 @@
                                         <td data-bind="attr:{} "><img data-bind="attr:{src: CreateURLOfLogoImg(away_team.team_fifa_api_id),height:42, width:42 }" /> </td>
                                         <td><a href="" data-bind="html: away_team.team_long_name, click: function(){GoToTeam(away_team)}"></a></td>
                                         <td data-bind="html: NormalizeDateOfMatch(date)"></td>
-                                        <td><button data-bind="click: function(){}" class="btn btn-default">
+                                        <td><button data-bind="click: function(){GoToMatch(id)}" class="btn btn-default">
                                             <i class="glyphicon glyphicon-search"></i>
                                             </button>
                                         </td>
@@ -288,7 +310,7 @@
             <div class="clearfix"></div>
 </section>
     <!-- /ko -->
-    <!-- ko if: LeagueData -->
+    <!-- ko if: LeagueData() -->
     <section id="list" class="pages">
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle()" style="color:white"></h2>
@@ -300,14 +322,19 @@
     </section>
     <!-- /ko -->
 
-    <!-- ko if: SpecificTeamData -->
-    <!--<section id="Welcome" class="pages">
+    <!-- ko if: MatchData() -->
+    <section id="Welcome" class="pages">
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle"></h2>
         </div>
-        <div><p>sfsssdsdsds</p></div>
+        <div data-bind="text:MatchData().home_team.team_long_name+ '[' + MatchData().home_team.team_short_name + ']'"></div>
+        <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id),height:42, width:42 }" />
         <div class="clearfix"></div>
-    </section>-->
+    </section>
+    <!-- /ko -->
+
+    <!-- ko if: mainPage()-->
+
     <!-- /ko -->
 </body>
 </html>

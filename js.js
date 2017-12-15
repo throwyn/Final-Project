@@ -1,9 +1,16 @@
 ﻿
+
 //--- Internal functions
 function searchInList(list, page) {
     for (var i = 0; i < list.length; i++)
         if (list[i].className === page)
             return list[i];
+}
+function loaded(obj) {
+    document.getElementById(obj).style.display = '';
+}
+function KitsError(obj){
+
 }
 function searchForDataOfSeason(list, year) {
     for (var i = 0; i < list.length; i++)
@@ -113,14 +120,17 @@ $(document).ready(function () {
                     "baseUri": "http://192.168.160.28/football/api/matches"
                 },
                 {
-                    "className": "Matches_Of_Team_In_Season",//Get matches for a Team in a Season
-                    "baseUri": "http://192.168.160.28/football/api/matches/{id}"
+                    "className": "Match",//Get matches for a Team in a Season
+                    "baseUri": "http://192.168.160.28/football/api/matches/"
                 },
                 {
                     "className": "Welcome"//Get to "welcome"
                 }
 
             ];
+
+        //Main page
+        self.mainPage = ko.observable();
 
         //countries and leagues
         self.chosenMenuTitle = ko.observable();
@@ -142,6 +152,10 @@ $(document).ready(function () {
         self.MatchesOfTeam = function () { return self.SpecificTeamSelectedSeasonData().Matches; };
         self.SpecificTeamSelectedSeason = ko.observable();
         self.SpecificTeamSeasonsSet = function (season) {
+            document.getElementById("KitArea1").style.display = '';
+            document.getElementById("KitArea2").style.display = '';
+            document.getElementById("KitArea3").style.display = '';
+            document.getElementById("KitArea4").style.display = '';
             self.SpecificTeamSelectedSeason(season);
             self.SpecificTeamSelectedSeasonData(searchForDataOfSeason(self.SpecificTeamSeasonsData(), season));
         };
@@ -154,6 +168,12 @@ $(document).ready(function () {
         //League
         self.LeagueID = ko.observable();
         self.LeagueData = ko.observable();
+        self.NameOfLeague = ko.observable();
+        self.SetNameOfLeague = function () { self.NameOfLeague(self.LeaguesyData().name); };
+
+        //Match
+        self.MatchID = ko.observable();
+        self.MatchData = ko.observable();
         self.NameOfLeague = ko.observable();
         self.SetNameOfLeague = function () { self.NameOfLeague(self.LeaguesyData().name); };
 
@@ -206,6 +226,7 @@ $(document).ready(function () {
             self.SpecificTeamSelectedSeasonData(null);
             self.LeaguesOfCountryData(null);
             self.LeagueData(null);
+            self.MatchData(null);
         };
         self.menuGoTo = function (page) {
             console.log("MENU TO GOO" + page);
@@ -218,8 +239,15 @@ $(document).ready(function () {
             location.hash = '#Info_Team/' + obj.id;
 
         };
+        self.GoToMatch = function (id) {
+            console.log("Go to match id: " + id);
+            self.MatchID(id);
+            location.hash = '#Match/' + id;
+
+        };
         self.GoToSpecyfic = function (page) {
-            console.log("MENU TO GOO" + page);
+            self.SearchForTeamString(document.getElementById("SearchForTeamString").value);
+            console.log("MENU TO GOO" + SearchForTeamString());
             if (page === 'Search_For_Team' && (self.SearchForTeamString() === '' || self.SearchForTeamString() === null )) {
                 console.log('1');
                 location.hash = 'Teams';
@@ -256,8 +284,7 @@ $(document).ready(function () {
             switch (list.className) {
                 case 'Search_For_Team':
                     URL = list.baseUri + self.SearchForTeamString();
-                    self.SearchForTeamString(null);
-                    console.log(URL);
+                    console.log(SearchForTeamString());
                     break;
 
                 case 'Info_Team':
@@ -268,6 +295,9 @@ $(document).ready(function () {
                     break;
                 case 'Info_League':
                     URL = list.baseUri + self.LeagueID();
+                    break;
+                case 'Match':
+                    URL = list.baseUri + self.MatchID();
                     break;
                     
                 case 'Welcome':
@@ -309,6 +339,10 @@ $(document).ready(function () {
                     self.LeagueData(data);
                     console.log(data.name);
                 }
+                if (list.className === 'Match') {
+                    self.chosenMenuTitle(data.home_team.team_long_name + '[' + data.home_team.team_short_name + ']' + '  VS  ' + data.away_team.team_long_name + '[' + data.away_team.team_short_name + ']');
+                    self.MatchData(data);
+                }
                 
 
 
@@ -327,7 +361,7 @@ $(document).ready(function () {
                // if (this.params.menu === 'Countries' || this.params.menu === 'Leagues')
                 //self.chosenMailData(null);
                 //console.log(self.chosenMenuTitle());
-                console.log(searchInList(self.list, this.params.menu));
+                //console.log(searchInList(self.list, this.params.menu));
                 self.get(searchInList(self.list, this.params.menu));
             });
 
@@ -339,21 +373,28 @@ $(document).ready(function () {
                 }
                 if (this.params.menu === 'Search_For_Team') {
                     self.SearchForTeamString(this.params.id);
+                    console.log(this.params.id);
                 }
                 if (this.params.menu === 'Info_League') {
                     self.LeagueID(this.params.id);
-                    console.log(this.params.id)
+                    console.log(this.params.id);
                 }
                 if (this.params.menu === 'Info_Team') {
                     self.SpecificTeamID(this.params.id);
+                }
+                if (this.params.menu === 'Match') {
+                    self.MatchID(this.params.id);
                 }
                 //console.log(self.chosenMenuTitle());
                 //console.log(self.list[searchInList(self.list, this.params.menu)]);
                 self.get(searchInList(self.list, this.params.menu));
             });
 
-            this.get('', function () { this.app.runRoute('get', '#Countries'); });
-          //  this.get('', function () { this.app.runRoute('get', '#Welcome'); });
+           // this.get('', function () { this.app.runRoute('get', '#Countries'); });
+            this.get('', function () {
+                self.clearData();
+                //this.app.runRoute('get', '#Welcome');
+            });
         }).run();    
     }
     ko.applyBindings(vm);
@@ -372,6 +413,6 @@ $(document).ready(function () {
     //    }
     //});
 });
-
-
-
+//$("img").on('error', function () {
+//    $(this.parentNode.parentNode.removeChild(this.parentNode);).hide();
+//});
