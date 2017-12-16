@@ -299,9 +299,9 @@ $(document).ready(function () {
             self.SpecificTeamID(page.id);
             location.hash = 'Info_Team' + '/' + self.SpecificTeamID();
         };
-        self.GoToPlayer = function (obj) {
-            console.log("Go to player id: " + obj.id);
-            location.hash = '#Player/' + obj.id;
+        self.GoToPlayer = function (id) {
+            console.log("Go to player id: " + id);
+            location.hash = '#Player/' + id;
 
         };
 
@@ -357,6 +357,7 @@ $(document).ready(function () {
                 if (list.className === 'Teams' || list.className === 'Search_For_Team') {
                     self.chosenMenuTitle('Teams');
                     self.TeamsData(data);
+                    $("#SearchForTeamString").focus();
                 }
                 if (list.className === 'Players' || list.className === 'Players_With_Name') {
                     self.chosenMenuTitle('Players');

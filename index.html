@@ -92,7 +92,7 @@
         </div>
         <div class="page-header">
             <div class="input-group">
-                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeydown="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
+                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeyup="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
                 <div class="input-group-btn">
                     <button data-bind="click: function(){ GoToTeams('Search_For_Team');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
@@ -131,7 +131,7 @@
         </div>
         <div class="page-header">
             <div class="input-group">
-                <input id="SearchForPlayersString" type="text" class="form-control" placeholder="Search" keyup="GoToPlayers('Players')" data-bind="value: SearchForPlayersString()">
+                <input id="SearchForPlayersString" type="text" class="form-control" placeholder="Search" data-bind="value: SearchForPlayersString()">
                 <div class="input-group-btn">
                     <button data-bind="click: function(){ GoToPlayers('Players');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
@@ -150,11 +150,12 @@
                 </thead>
                 <tbody data-bind="foreach: PlayersData">
                     <tr style="color:lightslategrey">
-                        <td height="128px" width="128px"><a href="" data-bind=" click: GoToPlayer" style="color:black">
+                        <td height="128px" width="128px">
+                            <a href="" data-bind=" click: function(){GoToPlayer(id)}" style="color:black">
                             <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+(player_fifa_api_id)+'.png'}" onerror="this.style.display = 'none'">
                             </a>
                         </td>
-                        <td ><a href="" data-bind="html: player_name, click: GoToPlayer" style="color:black"></a></td>
+                        <td ><a href="" data-bind="html: player_name, click: function(){GoToPlayer(id)}" style="color:black"></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -364,17 +365,38 @@
     <!-- ko if: MatchData() -->
     <section id="match" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuTitle"></h2>
+            <h2 data-bind="text:chosenMenuTitle"></h2> 
         </div>
         <div data-bind="text:MatchData().home_team.team_long_name+ '[' + MatchData().home_team.team_short_name + ']'"></div>
-        <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id) }" />
-        <div>
-            <img src="Media/field.png" />
+            <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id) }" />
+
+        <div class="container" style=" position: relative">
+            <img src="Media/field.png" height="375" width="420"/>
+            <div  data-bind="foreach: MatchData().Home_player">
+                <div style="position: absolute; " data-bind="css:CSSClass"  height="50" width="50" >
+                    <a href="" data-bind="click: function(){ GoToPlayer(id);}">
+                        <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+player_fifa_api_id+'.png' },click: function(){ GoToPlayer;} " onerror="this.style.display = 'none' " height="50" width="50" />
+                        <div data-bind="text: player_name,click: function(){ GoToPlayer;}"></div>
+                    </a>
+
+
+                </div>
+            </div>
         </div>
         <div data-bind="text:MatchData().away_team.team_long_name+ '[' + MatchData().away_team.team_short_name + ']'"></div>
         <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().away_team.team_fifa_api_id) }" />
         <div>
-            <img src="Media/field.png" />
+            <div class="container" style=" position: relative">
+                <img src="Media/field.png" height="375" width="420" />
+                <div data-bind="foreach: MatchData().Away_player">
+                    <div style="position: absolute; " data-bind="css:CSSClass"  height="50" width="50">
+                        <a href="" data-bind="click: function(){ GoToPlayer(id);}">
+                            <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+player_fifa_api_id+'.png' }, " onerror="this.style.display = 'none' " height="50" width="50" />
+                            <div data-bind="text: player_name"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- /ko -->
