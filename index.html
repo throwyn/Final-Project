@@ -10,7 +10,7 @@
     <script src="js.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
-    <title></title>
+    <title>Foot Info</title>
 </head>
 <body>
     <style>
@@ -22,6 +22,26 @@
             background-size: cover;
 
         }
+        #tableteams {
+            background-color:lightblue;
+            border-radius:10px;
+            
+        }
+        #teams {
+            background-image: url("http://trivela.uol.com.br/wp-content/uploads/2015/01/Indy-Eleven.jpg"); 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+        #team {
+            background-image: url("http://trivela.uol.com.br/wp-content/uploads/2015/01/Indy-Eleven.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+          
 
     </style>
     <!-- navigation bar -->
@@ -47,8 +67,8 @@
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle" style="color:white"></h2>
         </div>
-        <ul  data-bind="foreach: CountriesData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeaguesOfCountry "></a></div></li>
+        <ul  data-bind="foreach: CountriesData" style="color:lightgoldenrodyellow">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeaguesOfCountry ", style="color:goldenrod"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
@@ -58,8 +78,8 @@
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle" style="color:white"></h2>
         </div>
-        <ul data-bind="foreach: LeaguesData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeague "></a></div></li>
+        <ul data-bind="foreach: LeaguesData" style="color:lightgoldenrodyellow">
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '', title: name}, click: GoToLeague ", style="color:goldenrod"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
@@ -70,7 +90,7 @@
             <h2 data-bind="text:NameOfSelectedCountry()" style="color:white"></h2>
         </div>
         <ul data-bind="foreach: LeaguesOfCountryData">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuTitle().toLowerCase()+'/'+id, title: name}"></a></div></li>
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:name, attr:{ href: '#'+chosenMenuTitle().toLowerCase()+'/'+id, title: name}",  style="color:goldenrod"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
@@ -94,7 +114,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="container" style="color:navajowhite">
-            <table class="table table-hover table-bordered" style="background-color:lightblue" >
+            <table class="table table-hover" id="tableteams">
                 <thead>
                     <tr>
                         <th>Team</th>
@@ -142,76 +162,80 @@
                 <!-- ko if: AttributesOfTeam() -->
                 <div id="team_attributes" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Team Attributes'"></h3>
-                    <p> Build Up Play<br/>
-                    Speed
+                    <p> 
+                       <p><em style="color:red">Build Up Play</em></p>
+                        
+                   <b> Speed</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
                                     data-bind="text:AttributesOfTeam().buildupplayspeedclass+' - '+AttributesOfTeam().buildupplayspeed+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().buildupplayspeed + '%' }, 
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplayspeed }">
                             -
                         </div><br />
-                    Dribbling
+                   <b>Dribbling</b> 
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaydribblingclass+' - '+AttributesOfTeam().buildupplaydribbling+'%',
                                                 style: { color: '#000;', width: AttributesOfTeam().buildupplaydribbling + '%' },
                                                 attr: { 'aria-valuenow': AttributesOfTeam().buildupplaydribbling }">
                                 -
                         </div><br />
-                    Passing
+                    <b>Passing</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaypassingclass+' - '+AttributesOfTeam().buildupplaypassing+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().buildupplaypassing + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplaypassing }">
                                 -
                         </div><br />
-                    Positioning  <div data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
+                    <em>Positioning</em> <em><div data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div></em> 
                         
                     </p>
 
                     <p>
-                        Chance Creation<br />
-                        Passing
+                       <p> <em style="color:red">Chance Creation</em> </p>
+                        
+                       <b>Passing</b> 
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().chancecreationpassingclass+' - '+AttributesOfTeam().chancecreationpassing+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationpassing + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationpassing }">
                             -
                         </div><br />
-                        Crossing
+                       <b>Crossing</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().chancecreationcrossingclass+' - '+AttributesOfTeam().chancecreationcrossing+'%',
                                                 style: { color: '#000;', width: AttributesOfTeam().chancecreationcrossing + '%' },
                                                 attr: { 'aria-valuenow': AttributesOfTeam().chancecreationcrossing }">
                             -
                         </div><br />
-                        Shooting
+                        <b>Shooting</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().chancecreationshootingclass+' - '+AttributesOfTeam().chancecreationshooting+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationshooting + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationshooting }">
                             -
                         </div><br />
-                        Positioning  <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass"></div>
+                        Positioning <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass"></div> 
 
                     </p>
 
                     <p>
-                        Defence<br />
-                        Pressure
+                        <p> <em style="color:red">Defence</em> </p>
+                
+                        <b>Pressure</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().defencepressureclass+' - '+AttributesOfTeam().defencepressure+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().defencepressure + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().defencepressure }">
                             -
                         </div><br />
-                        Aggression
+                        <b>Aggression</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().defenceaggressionclass+' - '+AttributesOfTeam().defenceaggression+'%',
                                                 style: { color: '#000;', width: AttributesOfTeam().defenceaggression + '%' },
                                                 attr: { 'aria-valuenow': AttributesOfTeam().defenceaggression }">
                             -
                         </div><br />
-                        Teamwidth
+                        <b>Teamwidth</b>
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().defenceteamwidthclass+' - '+AttributesOfTeam().defenceteamwidth+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().defenceteamwidth + '%' },
@@ -282,7 +306,7 @@
             <h2 data-bind="text:chosenMenuTitle()" style="color:white"></h2>
         </div>
         <ul data-bind="foreach: LeagueData().teams">
-            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:team_long_name, attr:{ href: '#Info_Team/'+id, title: team_long_name}"></a></div></li>
+            <li><div><i class="fa fa-map-marker"></i> <a data-bind="html:team_long_name, attr:{ href: '#Info_Team/'+id, title: team_long_name}",  style="color:goldenrod"></a></div></li>
         </ul>
         <div class="clearfix"></div>
     </section>
