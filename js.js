@@ -1,9 +1,16 @@
 ﻿
+
 //--- Internal functions
 function searchInList(list, page) {
     for (var i = 0; i < list.length; i++)
         if (list[i].className === page)
             return list[i];
+}
+function loaded(obj) {
+    document.getElementById(obj).style.display = '';
+}
+function KitsError(obj){
+
 }
 function searchForDataOfSeason(list, year) {
     for (var i = 0; i < list.length; i++)
@@ -29,7 +36,7 @@ $(document).ready(function () {
         console.log('ViewModel initiated...');
         //---Variáveis locais
         var self = this;
-        self.menu = ['Countries', 'Leagues', 'Teams'];
+        self.menu = ['Countries', 'Leagues', 'Teams', 'Players'];
         self.list =
             [
                 {
@@ -86,7 +93,7 @@ $(document).ready(function () {
                 },
                 {
                     "className": "Players_With_Name",//Get a list of Players with a name passed as input parameter
-                    "baseUri": "http://192.168.160.28/football/api/players/search?srcStr={srcStr}"
+                    "baseUri": "http://192.168.160.28/football/api/players/search?srcStr="
                 },
                 {
                     "className": "Players",//Get a list of players (first 20)
@@ -97,8 +104,8 @@ $(document).ready(function () {
                     "baseUri": "http://192.168.160.28/football/api/players?page={page}&pageSize={pageSize}"
                 },
                 {
-                    "className": "Info_Player",//Get info about a player
-                    "baseUri": "http://192.168.160.28/football/api/players/{id}"
+                    "className": "Player",//Get info about a player
+                    "baseUri": "http://192.168.160.28/football/api/players/"
                 },
                 {
                     "className": "Info_League",//Get info about a league
@@ -113,14 +120,17 @@ $(document).ready(function () {
                     "baseUri": "http://192.168.160.28/football/api/matches"
                 },
                 {
-                    "className": "Matches_Of_Team_In_Season",//Get matches for a Team in a Season
-                    "baseUri": "http://192.168.160.28/football/api/matches/{id}"
+                    "className": "Match",//Get matches for a Team in a Season
+                    "baseUri": "http://192.168.160.28/football/api/matches/"
                 },
                 {
                     "className": "Welcome"//Get to "welcome"
                 }
 
             ];
+
+        //Main page
+        self.mainPage = ko.observable();
 
         //countries and leagues
         self.chosenMenuTitle = ko.observable();
@@ -142,6 +152,10 @@ $(document).ready(function () {
         self.MatchesOfTeam = function () { return self.SpecificTeamSelectedSeasonData().Matches; };
         self.SpecificTeamSelectedSeason = ko.observable();
         self.SpecificTeamSeasonsSet = function (season) {
+            document.getElementById("KitArea1").style.display = '';
+            document.getElementById("KitArea2").style.display = '';
+            document.getElementById("KitArea3").style.display = '';
+            document.getElementById("KitArea4").style.display = '';
             self.SpecificTeamSelectedSeason(season);
             self.SpecificTeamSelectedSeasonData(searchForDataOfSeason(self.SpecificTeamSeasonsData(), season));
         };
@@ -157,6 +171,12 @@ $(document).ready(function () {
         self.NameOfLeague = ko.observable();
         self.SetNameOfLeague = function () { self.NameOfLeague(self.LeaguesyData().name); };
 
+        //Match
+        self.MatchID = ko.observable();
+        self.MatchData = ko.observable();
+        self.NameOfLeague = ko.observable();
+        self.SetNameOfLeague = function () { self.NameOfLeague(self.LeaguesyData().name); };
+
 
         // Seasons
         self.SeasonsData = ko.observable();
@@ -164,6 +184,26 @@ $(document).ready(function () {
         //Teams
         self.SearchForTeamString = ko.observable();
         self.TeamsData = ko.observable();
+
+        //Players
+        self.SearchForPlayersString = ko.observable();
+        self.PlayersData = ko.observable();
+        self.GoToPlayers = function (page) {
+            self.SearchForPlayersString($('#SearchForPlayersString').val());
+            console.log("MENU TO GOO" + SearchForPlayersString());
+            if (page === 'Payers' && (self.SearchForPlayersString() === '' || self.SearchForPlayersString() === null)) {
+                console.log('1');
+                location.hash = 'Players';
+            }
+            else {
+                console.log(self.SearchForPlayersString());
+                console.log('2');
+                location.hash = 'Players_With_Name' + '/' + self.SearchForPlayersString();
+            }
+        };
+        //Player
+        self.PlayerID = ko.observable();
+        self.PlayerData = ko.observable();
 
         //Other functions
         self.error = function () { console.log("Whoops! Kind of error"); };
@@ -181,7 +221,7 @@ $(document).ready(function () {
         //    //console.log(searchInList(self.list, page));
         //    self.get(self.list, searchInList(self.list,page));
         //};
-        self.NormalizeDateOfMatch = function (date) { return date.split("T")[0]; };
+        self.NormalizeDate = function (date) { return date.split("T")[0]; };
         self.CreateURLOfLogoImg = function (id) { return "https://cdn.sofifa.org/18/teams/" + id + ".png"; };
         self.DownloadSeasons = function () {
             ajaxHelper("http://192.168.160.28/football/api/teams/seasons", 'GET').done(function (data) {
@@ -196,6 +236,10 @@ $(document).ready(function () {
                 console.log(self.SpecificTeamSelectedSeasonData());
             });
         };
+        self.clearInputs = function () {
+            $('#SearchForPlayersString').val('');
+            $('#SearchForTeamString').val('');
+        };
         self.clearData = function () {
             self.CountriesData(null);
             self.LeaguesData(null); // Stop showing actual content
@@ -206,21 +250,30 @@ $(document).ready(function () {
             self.SpecificTeamSelectedSeasonData(null);
             self.LeaguesOfCountryData(null);
             self.LeagueData(null);
+            self.MatchData(null);
+            self.PlayersData(null);
+            self.PlayerData(null);
         };
         self.menuGoTo = function (page) {
+            self.clearInputs();
             console.log("MENU TO GOO" + page);
             location.hash = page;
         };
         self.GoToTeam = function (obj) {
             console.log("Go to team id: " + obj.id);
-            self.SpecificTeamID(obj.id);
-            SetSpecificTeamImageUrl(obj.team_fifa_api_id);
             location.hash = '#Info_Team/' + obj.id;
 
         };
-        self.GoToSpecyfic = function (page) {
-            console.log("MENU TO GOO" + page);
-            if (page === 'Search_For_Team' && (self.SearchForTeamString() === '' || self.SearchForTeamString() === null )) {
+        self.GoToMatch = function (id) {
+            console.log("Go to match id: " + id);
+            self.MatchID(id);
+            location.hash = '#Match/' + id;
+
+        };
+        self.GoToTeams = function (page) {
+            self.SearchForTeamString($('#SearchForTeamString').val());
+            console.log("MENU TO GOO" + SearchForTeamString());
+            if (page === 'Search_For_Team' && (self.SearchForTeamString() === '' || self.SearchForTeamString() === null)) {
                 console.log('1');
                 location.hash = 'Teams';
             }
@@ -242,22 +295,15 @@ $(document).ready(function () {
         };
         self.GoToSpecificTeam = function (page) {
             console.log("Go To Team " + page.id);
-            self.SpecificTeamID(page.id);
-            self.SetSpecificTeamImageUrl(page.team_fifa_api_id);
             console.log(self.SpecificTeamID());
+            self.SpecificTeamID(page.id);
             location.hash = 'Info_Team' + '/' + self.SpecificTeamID();
         };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 0bb515c... #Match shows players on field
-        self.GoToPlayer = function (obj) {
-            console.log("Go to player id: " + obj.id);
-            location.hash = '#Player/' + obj.id;
+        self.GoToPlayer = function (id) {
+            console.log("Go to player id: " + id);
+            location.hash = '#Player/' + id;
 
         };
->>>>>>> parent of 0bb515c... #Match shows players on field
 
         self.get = function (list) {
             self.clearData; 
@@ -267,8 +313,7 @@ $(document).ready(function () {
             switch (list.className) {
                 case 'Search_For_Team':
                     URL = list.baseUri + self.SearchForTeamString();
-                    self.SearchForTeamString(null);
-                    console.log(URL);
+                    console.log(SearchForTeamString());
                     break;
 
                 case 'Info_Team':
@@ -279,6 +324,15 @@ $(document).ready(function () {
                     break;
                 case 'Info_League':
                     URL = list.baseUri + self.LeagueID();
+                    break;
+                case 'Match':
+                    URL = list.baseUri + self.MatchID();
+                    break;
+                case 'Players_With_Name':
+                    URL = list.baseUri + self.SearchForPlayersString();
+                    break;
+                case 'Player':
+                    URL = list.baseUri + self.PlayerID();
                     break;
                     
                 case 'Welcome':
@@ -303,22 +357,18 @@ $(document).ready(function () {
                 if (list.className === 'Teams' || list.className === 'Search_For_Team') {
                     self.chosenMenuTitle('Teams');
                     self.TeamsData(data);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 0bb515c... #Match shows players on field
+                    $("#SearchForTeamString").focus();
                 }
                 if (list.className === 'Players' || list.className === 'Players_With_Name') {
                     self.chosenMenuTitle('Players');
                     self.PlayersData(data);
->>>>>>> parent of 0bb515c... #Match shows players on field
                 }
                 if (list.className === 'Info_Team') {
                     self.chosenMenuTitle(data.team_long_name + '  [' + data.team_short_name+']');
                     self.SpecificTeamData(data);
                     self.DownloadSeasons();
                     self.DownloadSpecificTeamSeasonsData();
+                    SetSpecificTeamImageUrl(data.team_fifa_api_id);
                     console.log(data);
                 }
                 if (list.className === 'Country_Leagues') {
@@ -329,6 +379,14 @@ $(document).ready(function () {
                     self.chosenMenuTitle(data.name);
                     self.LeagueData(data);
                     console.log(data.name);
+                }
+                if (list.className === 'Match') {
+                    self.chosenMenuTitle(data.home_team.team_long_name + '[' + data.home_team.team_short_name + ']' + '  VS  ' + data.away_team.team_long_name + '[' + data.away_team.team_short_name + ']');
+                    self.MatchData(data);
+                }
+                if (list.className === 'Player') {
+                    self.chosenMenuTitle(data.player_name);
+                    self.PlayerData(data);
                 }
                 
 
@@ -348,7 +406,7 @@ $(document).ready(function () {
                // if (this.params.menu === 'Countries' || this.params.menu === 'Leagues')
                 //self.chosenMailData(null);
                 //console.log(self.chosenMenuTitle());
-                console.log(searchInList(self.list, this.params.menu));
+                //console.log(searchInList(self.list, this.params.menu));
                 self.get(searchInList(self.list, this.params.menu));
             });
 
@@ -360,21 +418,41 @@ $(document).ready(function () {
                 }
                 if (this.params.menu === 'Search_For_Team') {
                     self.SearchForTeamString(this.params.id);
+                    console.log(this.params.id);
+                }
+                if (this.params.menu === 'Players_With_Name') {
+                    if (this.params.id === null || this.params.id === '') { 
+                        this.params.menu = 'Players';
+                        self.SearchForPlayersString(null);
+                    }
+                    else
+                        self.SearchForPlayersString(this.params.id);
+                    console.log(this.params.id);
                 }
                 if (this.params.menu === 'Info_League') {
                     self.LeagueID(this.params.id);
-                    console.log(this.params.id)
+                    console.log(this.params.id);
                 }
                 if (this.params.menu === 'Info_Team') {
                     self.SpecificTeamID(this.params.id);
+                }
+                if (this.params.menu === 'Match') {
+                    self.MatchID(this.params.id);
+                }
+                if (this.params.menu === 'Player') {
+                    self.PlayerID(this.params.id);
+                   // console.log(self.PlayerID());
                 }
                 //console.log(self.chosenMenuTitle());
                 //console.log(self.list[searchInList(self.list, this.params.menu)]);
                 self.get(searchInList(self.list, this.params.menu));
             });
 
-            this.get('', function () { this.app.runRoute('get', '#Countries'); });
-          //  this.get('', function () { this.app.runRoute('get', '#Welcome'); });
+           // this.get('', function () { this.app.runRoute('get', '#Countries'); });
+            this.get('', function () {
+                self.clearData();
+                //this.app.runRoute('get', '#Welcome');
+            });
         }).run();    
     }
     ko.applyBindings(vm);
@@ -393,6 +471,6 @@ $(document).ready(function () {
     //    }
     //});
 });
-
-
-
+//$("img").on('error', function () {
+//    $(this.parentNode.parentNode.removeChild(this.parentNode);).hide();
+//});

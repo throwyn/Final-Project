@@ -15,12 +15,21 @@
 <body>
     <style>
         body {
-            background-image: url("https://png.pngtree.com/thumb_back/fw800/back_pic/04/62/33/77586f80d1887e6.jpg");
+            background-image: url(" https://upload.wikimedia.org/wikipedia/commons/8/8e/Stade_Velodrome_2015.jpg");
             background-repeat: no-repeat;
-            background-attachment:fixed;
+            background-attachment: fixed;
             background-position: center;
             background-size: cover;
-
+        }
+        #list {
+            background-image: url(" https://upload.wikimedia.org/wikipedia/commons/8/8e/Stade_Velodrome_2015.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+        #table {
+            background-color: lightblue
         }
 
     </style>
@@ -75,8 +84,7 @@
         <div class="clearfix"></div>
     </section>
     <!-- /ko -->
-
-    <!-- #teams -->    
+    <!-- #teams -->
     <!-- ko if: TeamsData() -->
     <section id="teams" class="pages">
         <div class="page-header">
@@ -84,17 +92,9 @@
         </div>
         <div class="page-header">
             <div class="input-group">
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <input type="text" class="form-control" placeholder="Search" data-bind="value: SearchForTeamString">
-=======
-                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeydown="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
->>>>>>> parent of 0bb515c... #Match shows players on field
-=======
-                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeydown="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
->>>>>>> parent of 0bb515c... #Match shows players on field
+                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeyup="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
                 <div class="input-group-btn">
-                    <button data-bind="click: function(){ GoToSpecyfic('Search_For_Team');}" class="btn btn-default">
+                    <button data-bind="click: function(){ GoToTeams('Search_For_Team');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
                     </button>
                 </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="container" style="color:navajowhite">
-            <table class="table table-hover table-bordered" style="background-color:lightblue" >
+            <table class="table-condensed table-hover table-bordered" id="table">
                 <thead>
                     <tr>
                         <th>Team</th>
@@ -116,13 +116,8 @@
                         <td data-bind="html: team_short_name"></td>
                         <td data-bind="html: Country.name"></td>
                     </tr>
-
                 </tbody>
             </table>
-<<<<<<< HEAD
-            </div>
-    </section>    
-=======
         </div>
         <div class="clearfix"></div>
     </section>
@@ -136,7 +131,7 @@
         </div>
         <div class="page-header">
             <div class="input-group">
-                <input id="SearchForPlayersString" type="text" class="form-control" placeholder="Search" keyup="GoToPlayers('Players')" data-bind="value: SearchForPlayersString()">
+                <input id="SearchForPlayersString" type="text" class="form-control" placeholder="Search" data-bind="value: SearchForPlayersString()">
                 <div class="input-group-btn">
                     <button data-bind="click: function(){ GoToPlayers('Players');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
@@ -155,18 +150,18 @@
                 </thead>
                 <tbody data-bind="foreach: PlayersData">
                     <tr style="color:lightslategrey">
-                        <td height="128px" width="128px"><a href="" data-bind=" click: GoToPlayer" style="color:black">
+                        <td height="128px" width="128px">
+                            <a href="" data-bind=" click: function(){GoToPlayer(id)}" style="color:black">
                             <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+(player_fifa_api_id)+'.png'}" onerror="this.style.display = 'none'">
                             </a>
                         </td>
-                        <td ><a href="" data-bind="html: player_name, click: GoToPlayer" style="color:black"></a></td>
+                        <td ><a href="" data-bind="html: player_name, click: function(){GoToPlayer(id)}" style="color:black"></a></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="clearfix"></div>
     </section>
->>>>>>> parent of 0bb515c... #Match shows players on field
     <!-- /ko -->
 
     <!--#team/id-->
@@ -188,29 +183,29 @@
                 </li>
             </ul>
             <div class="tab-content" >
-                <div id="season_kits" class="tab-pane fade in active">
-                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Seasons Kits'"></h3>
-                    <p>Some content.</p>
-                </div>
+
 
                 <!-- ko if: AttributesOfTeam() -->
-                <div id="team_attributes" class="tab-pane fade in active">
+                <div id="team_attributes" class="tab-pane fade in active" style="background-color:lightgrey">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Team Attributes'"></h3>
-                    <p> Build Up Play<br/>
+                    <br />
+                    <p><h2> Build Up Play</h2></p> 
                     Speed
-                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100"style="width:40%" 
                                     data-bind="text:AttributesOfTeam().buildupplayspeedclass+' - '+AttributesOfTeam().buildupplayspeed+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().buildupplayspeed + '%' }, 
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplayspeed }">
                             -
-                        </div><br />
+                    </div><br />
                     Dribbling
-                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaydribblingclass+' - '+AttributesOfTeam().buildupplaydribbling+'%',
                                                 style: { color: '#000;', width: AttributesOfTeam().buildupplaydribbling + '%' },
                                                 attr: { 'aria-valuenow': AttributesOfTeam().buildupplaydribbling }">
                                 -
-                        </div><br />
+                    </div> 
+
+                    <br />
                     Passing
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                                     data-bind="text:AttributesOfTeam().buildupplaypassingclass+' - '+AttributesOfTeam().buildupplaypassing+'%',
@@ -218,14 +213,13 @@
                                         attr: { 'aria-valuenow': AttributesOfTeam().buildupplaypassing }">
                                 -
                         </div><br />
-                    Positioning  <div data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
-                        
-                    </p>
-
-                    <p>
-                        Chance Creation<br />
-                        Passing
-                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
+                    <div class="col-lg-3">  Positioning </div>
+                    <div class="col-lg-7" data-bind="text:AttributesOfTeam().buildupplaypositioningclass"></div>
+                    <br />
+            
+                   <h2>Chance Creation</h2>
+                   Passing
+                   <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().chancecreationpassingclass+' - '+AttributesOfTeam().chancecreationpassing+'%',
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationpassing + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationpassing }">
@@ -244,13 +238,16 @@
                                         style: { color: '#000;', width: AttributesOfTeam().chancecreationshooting + '%' },
                                         attr: { 'aria-valuenow': AttributesOfTeam().chancecreationshooting }">
                             -
-                        </div><br />
-                        Positioning  <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass"></div>
-
-                    </p>
-
-                    <p>
-                        Defence<br />
+                        </div><br /> 
+                    
+                         <div style="display:inline-block" class="col-lg-3"> Positioning </div>
+                         <div data-bind="text:AttributesOfTeam().chancecreationpositioningclass" class="col-lg-"></div>
+                     
+                    
+               
+                    
+                       <br />
+                        <h2>Defence</h2>
                         Pressure
                         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:40%"
                              data-bind="text:AttributesOfTeam().defencepressureclass+' - '+AttributesOfTeam().defencepressure+'%',
@@ -272,32 +269,55 @@
                                         attr: { 'aria-valuenow': AttributesOfTeam().defenceteamwidth }">
                             -
                         </div><br />
-                        Defender Line  <div data-bind="text:AttributesOfTeam().defencedefenderlineclass"></div>
-
-<<<<<<< HEAD
-                    </p>
-                </div>                
+                
+                    <div class="col-lg-3">  Defender Line </div>
+                    <div class="col-lg-7" data-bind="text:AttributesOfTeam().defencedefenderlineclass"></div>
+                   
+                 </div>                
                 <!-- /ko -->
 
-=======
->>>>>>> parent of c96a3de... Merge branch 'master' of https://github.com/throwyn/Final-Project
-                <!-- ko if:MatchesOfTeam-->
+                <div id="season_kits" class="tab-pane fade in active">
+                    <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Seasons Kits'"></h3>
+                    <p>
+                        <div class="toast mb-20">
+                            <div class="column col-sm-3 text-center" id="KitArea1" style="display:none">
+                                <img id="KitImage1" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/0_0.png'}"
+                                     onload='loaded(this.parentNode.id); loaded(this.parentNode.parentNode.parentNode.id)' onerror="this.parentNode.parentNode.parentNode.style.display = 'none'"><br>Home kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea2" style="display:none">
+                                <img id="KitImage2" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/1_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Away kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea3" style="display:none">
+                                <img id="KitImage3" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/2_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Goalkeeper kit
+                            </div>
+                            <div class="column col-sm-3 text-center" id="KitArea4" style="display:none">
+                                <img id="KitImage4" data-bind="attr:{src: 'https://cdn.sofifa.org/'+SpecificTeamSelectedSeason().slice(-2)+'/kits/'+(SpecificTeamData().team_fifa_api_id)+'/3_0.png'}"
+                                     onload='loaded(this.parentNode.id)' onerror="this.parentNode.style.display='none'"><br>Third kit
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </p>
+                </div>
+
+                <!-- ko if:MatchesOfTeam()[0]-->
                 <div id="season_matches" class="tab-pane fade in active">
                     <h3 data-bind="text: SpecificTeamSelectedSeason() + '  Season Matches'"></h3>
                     <p>
                         <div class="clearfix"></div>
                         <div class="container">
-                            <table class="table table-hover">
+                            <table class="table-striped table-hover" >
                                 <thead>
                                     <tr>
                                         <th>Stage</th>
-                                        <th>(name of team)</th>
-                                        <th>(logo of team)</th>
+                                        <th></th>
+                                        <th></th>
                                         <th>Home</th>
                                         <th></th>
                                         <th>Away</th>
-                                        <th>(logo of team)</th>
-                                        <th>(name of team)</th>
+                                        <th></th>
+                                        <th></th>
                                         <th>Match Date</th>
                                         <th>Details</th>
                                     </tr>
@@ -312,8 +332,8 @@
                                         <td data-bind="html: away_team_goal"></td>
                                         <td data-bind="attr:{} "><img data-bind="attr:{src: CreateURLOfLogoImg(away_team.team_fifa_api_id),height:42, width:42 }" /> </td>
                                         <td><a href="" data-bind="html: away_team.team_long_name, click: function(){GoToTeam(away_team)}"></a></td>
-                                        <td data-bind="html: NormalizeDateOfMatch(date)"></td>
-                                        <td><button data-bind="click: function(){}" class="btn btn-default">
+                                        <td data-bind="html: NormalizeDate(date)"></td>
+                                        <td><button data-bind="click: function(){GoToMatch(id)}" class="btn btn-default">
                                             <i class="glyphicon glyphicon-search"></i>
                                             </button>
                                         </td>
@@ -330,7 +350,7 @@
             <div class="clearfix"></div>
 </section>
     <!-- /ko -->
-    <!-- ko if: LeagueData -->
+    <!-- ko if: LeagueData() -->
     <section id="list" class="pages">
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle()" style="color:white"></h2>
@@ -342,36 +362,101 @@
     </section>
     <!-- /ko -->
 
-<<<<<<< HEAD
-    <!-- ko if: SpecificTeamData -->
-    <!--<section id="Welcome" class="pages">
-=======
     <!-- ko if: MatchData() -->
     <section id="match" class="pages">
         <div class="page-header">
-            <h2 data-bind="text:chosenMenuTitle"></h2>
+            <h2 data-bind="text:chosenMenuTitle"></h2> 
         </div>
         <div data-bind="text:MatchData().home_team.team_long_name+ '[' + MatchData().home_team.team_short_name + ']'"></div>
-        <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id) }" />
-        <div>
-            <img src="Media/field.png" />
+            <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id) }" />
+
+        <div class="container" style=" position: relative">
+            <img src="Media/field.png" height="375" width="420"/>
+            <div  data-bind="foreach: MatchData().Home_player">
+                <div style="position: absolute; " data-bind="css:CSSClass"  height="50" width="50" >
+                    <a href="" data-bind="click: function(){ GoToPlayer(id);}">
+                        <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+player_fifa_api_id+'.png' },click: function(){ GoToPlayer;} " onerror="this.style.display = 'none' " height="50" width="50" />
+                        <div data-bind="text: player_name,click: function(){ GoToPlayer;}"></div>
+                    </a>
+
+
+                </div>
+            </div>
         </div>
         <div data-bind="text:MatchData().away_team.team_long_name+ '[' + MatchData().away_team.team_short_name + ']'"></div>
         <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().away_team.team_fifa_api_id) }" />
         <div>
-            <img src="Media/field.png" />
+            <div class="container" style=" position: relative">
+                <img src="Media/field.png" height="375" width="420" />
+                <div data-bind="foreach: MatchData().Away_player">
+                    <div style="position: absolute; " data-bind="css:CSSClass"  height="50" width="50">
+                        <a href="" data-bind="click: function(){ GoToPlayer(id);}">
+                            <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+player_fifa_api_id+'.png' }, " onerror="this.style.display = 'none' " height="50" width="50" />
+                            <div data-bind="text: player_name"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- /ko -->
     <!-- ko if: PlayerData() -->
     <section id="player" class="pages">
->>>>>>> parent of 0bb515c... #Match shows players on field
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle"></h2>
         </div>
-        <div><p>sfsssdsdsds</p></div>
-        <div class="clearfix"></div>
-    </section>-->
+
+        <div data-bind="text:PlayerData().player_name"></div>
+        <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+PlayerData().player_fifa_api_id+'.png' } " onerror="this.style.display = 'none' "/>
+
+        <h5 data-bind="text:'Height: '+PlayerData().height"></h5>
+        <h5 data-bind="text:'Weight: '+PlayerData().weight"></h5>
+
+        <ul data-bind="foreach: PlayerData().player_attributes">
+            <li data-bind="text:'Date of this attributes: '+ NormalizeDate(date)"></li>
+            <li data-bind="text:'Overall rating: '+overall_rating"></li>
+            <li data-bind="text:'Potential: '+potential"></li>
+            <li data-bind="text:'Preferred foot: '+preferred_foot"></li>
+            <li data-bind="text:'Attacking work rate: '+attacking_work_rate"></li>
+            <li data-bind="text:'Defensive work rate: '+defensive_work_rate"></li>
+            <li data-bind="text:'Crossing: '+crossing"></li>
+            <li data-bind="text:'Finishing: '+finishing"></li>
+            <li data-bind="text:'Heading accuracy: '+heading_accuracy"></li>
+            <li data-bind="text:'Short passing: '+short_passing"></li>
+            <li data-bind="text:'Volleys: '+volleys"></li>
+            <li data-bind="text:'Dribbling: '+dribbling"></li>
+            <li data-bind="text:'Curve: '+curve"></li>
+            <li data-bind="text:'Free kick accuracy: '+free_kick_accuracy"></li>
+            <li data-bind="text:'Long passing: '+long_passing"></li>
+            <li data-bind="text:'Ball control: '+ball_control"></li>
+            <li data-bind="text:'Acceleration: '+acceleration"></li>
+            <li data-bind="text:'Sprint speed: '+sprint_speed"></li>
+            <li data-bind="text:'Agility: '+agility"></li>
+            <li data-bind="text:'Reactions: '+reactions"></li>
+            <li data-bind="text:'Balance: '+balance"></li>
+            <li data-bind="text:'Shot power: '+shot_power"></li>
+            <li data-bind="text:'Jumping: '+jumping"></li>
+            <li data-bind="text:'Stamina: '+stamina"></li>
+            <li data-bind="text:'Strength: '+strength"></li>
+            <li data-bind="text:'Long shots: '+long_shots"></li>
+            <li data-bind="text:'Aggression: '+aggression"></li>
+            <li data-bind="text:'Interceptions: '+interceptions"></li>
+            <li data-bind="text:'Positioning: '+positioning"></li>
+            <li data-bind="text:'Vision: '+vision"></li>
+            <li data-bind="text:'Penalties: '+penalties"></li>
+            <li data-bind="text:'Marking: '+marking"></li>
+            <li data-bind="text:'Standing tackle: '+standing_tackle"></li>
+            <li data-bind="text:'Sliding tackle: '+sliding_tackle"></li>
+            <li data-bind="text:'Diving: '+gk_diving"></li>
+            <li data-bind="text:'Handling: '+gk_handling"></li>
+            <li data-bind="text:'Kicking: '+gk_kicking"></li>
+            <li data-bind="text:'Positioning: '+gk_positioning"></li>
+            <li data-bind="text:'Reflexes: '+gk_reflexes"></li>
+        </ul>
+    </section>
+    <!-- /ko -->
+    <!-- ko if: mainPage()-->
+
     <!-- /ko -->
 </body>
 </html>
