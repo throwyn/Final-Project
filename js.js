@@ -248,7 +248,10 @@ $(document).ready(function () {
             location.hash = 'Info_Team' + '/' + self.SpecificTeamID();
         };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 0bb515c... #Match shows players on field
         self.GoToPlayer = function (obj) {
             console.log("Go to player id: " + obj.id);
             location.hash = '#Player/' + obj.id;
@@ -301,7 +304,10 @@ $(document).ready(function () {
                     self.chosenMenuTitle('Teams');
                     self.TeamsData(data);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 0bb515c... #Match shows players on field
                 }
                 if (list.className === 'Players' || list.className === 'Players_With_Name') {
                     self.chosenMenuTitle('Players');
