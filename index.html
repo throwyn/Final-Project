@@ -84,7 +84,11 @@
         </div>
         <div class="page-header">
             <div class="input-group">
+<<<<<<< HEAD
                 <input type="text" class="form-control" placeholder="Search" data-bind="value: SearchForTeamString">
+=======
+                <input id="SearchForTeamString" type="text" class="form-control" placeholder="Search" onkeydown="GoToTeams('Search_For_Team')" data-bind="value: SearchForTeamString()">
+>>>>>>> parent of 0bb515c... #Match shows players on field
                 <div class="input-group-btn">
                     <button data-bind="click: function(){ GoToSpecyfic('Search_For_Team');}" class="btn btn-default">
                         <i class="glyphicon glyphicon-search"></i>
@@ -111,8 +115,54 @@
 
                 </tbody>
             </table>
+<<<<<<< HEAD
             </div>
     </section>    
+=======
+        </div>
+        <div class="clearfix"></div>
+    </section>
+    <!-- /ko -->    
+    
+    <!-- #players -->
+    <!-- ko if: PlayersData() -->
+    <section id="teams" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:chosenMenuTitle" style="color:whitesmoke"></h2>
+        </div>
+        <div class="page-header">
+            <div class="input-group">
+                <input id="SearchForPlayersString" type="text" class="form-control" placeholder="Search" keyup="GoToPlayers('Players')" data-bind="value: SearchForPlayersString()">
+                <div class="input-group-btn">
+                    <button data-bind="click: function(){ GoToPlayers('Players');}" class="btn btn-default">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="container" style="color:navajowhite">
+            <table class="table-condensed table-hover table-bordered" id="table">
+                <thead>
+                    <tr>
+                        <th>Portrait</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: PlayersData">
+                    <tr style="color:lightslategrey">
+                        <td height="128px" width="128px"><a href="" data-bind=" click: GoToPlayer" style="color:black">
+                            <img data-bind="attr:{src: 'https://cdn.sofifa.org/18/players/'+(player_fifa_api_id)+'.png'}" onerror="this.style.display = 'none'">
+                            </a>
+                        </td>
+                        <td ><a href="" data-bind="html: player_name, click: GoToPlayer" style="color:black"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+>>>>>>> parent of 0bb515c... #Match shows players on field
     <!-- /ko -->
 
     <!--#team/id-->
@@ -288,8 +338,30 @@
     </section>
     <!-- /ko -->
 
+<<<<<<< HEAD
     <!-- ko if: SpecificTeamData -->
     <!--<section id="Welcome" class="pages">
+=======
+    <!-- ko if: MatchData() -->
+    <section id="match" class="pages">
+        <div class="page-header">
+            <h2 data-bind="text:chosenMenuTitle"></h2>
+        </div>
+        <div data-bind="text:MatchData().home_team.team_long_name+ '[' + MatchData().home_team.team_short_name + ']'"></div>
+        <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().home_team.team_fifa_api_id) }" />
+        <div>
+            <img src="Media/field.png" />
+        </div>
+        <div data-bind="text:MatchData().away_team.team_long_name+ '[' + MatchData().away_team.team_short_name + ']'"></div>
+        <img data-bind="attr:{src: CreateURLOfLogoImg(MatchData().away_team.team_fifa_api_id) }" />
+        <div>
+            <img src="Media/field.png" />
+        </div>
+    </section>
+    <!-- /ko -->
+    <!-- ko if: PlayerData() -->
+    <section id="player" class="pages">
+>>>>>>> parent of 0bb515c... #Match shows players on field
         <div class="page-header">
             <h2 data-bind="text:chosenMenuTitle"></h2>
         </div>

@@ -247,6 +247,14 @@ $(document).ready(function () {
             console.log(self.SpecificTeamID());
             location.hash = 'Info_Team' + '/' + self.SpecificTeamID();
         };
+<<<<<<< HEAD
+=======
+        self.GoToPlayer = function (obj) {
+            console.log("Go to player id: " + obj.id);
+            location.hash = '#Player/' + obj.id;
+
+        };
+>>>>>>> parent of 0bb515c... #Match shows players on field
 
         self.get = function (list) {
             self.clearData; 
@@ -292,6 +300,13 @@ $(document).ready(function () {
                 if (list.className === 'Teams' || list.className === 'Search_For_Team') {
                     self.chosenMenuTitle('Teams');
                     self.TeamsData(data);
+<<<<<<< HEAD
+=======
+                }
+                if (list.className === 'Players' || list.className === 'Players_With_Name') {
+                    self.chosenMenuTitle('Players');
+                    self.PlayersData(data);
+>>>>>>> parent of 0bb515c... #Match shows players on field
                 }
                 if (list.className === 'Info_Team') {
                     self.chosenMenuTitle(data.team_long_name + '  [' + data.team_short_name+']');
